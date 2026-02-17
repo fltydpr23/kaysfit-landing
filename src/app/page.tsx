@@ -21,10 +21,10 @@ const raceShowcase = [
   },
   {
     name: "Madurai Ultra",
-    logo: null as string | null,
+    logo: "/maduraiultralogo.png",
     dateLabel: "Date TBA",
-    distances: ["TBA"],
-    url: "https://maduraiultra.kfita.in/",
+    distances: ["18K", "36K", "45K", "60K"],
+    url: "https://maduraiultra.com/",
   },
 ];
 
