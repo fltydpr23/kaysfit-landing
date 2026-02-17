@@ -103,15 +103,33 @@ export default function HomePage() {
             KaysFIT Academy
           </div>
 
-          <h1 className="mt-6 text-5xl font-semibold leading-tight md:text-6xl">
-            Performance Coaching
-            <span className="block text-zinc-600">Built for Consistency & Endurance</span>
+          {/* Option 2 hero copy + upgraded hierarchy */}
+          <h1 className="mt-6 text-6xl font-semibold tracking-tight leading-[1.05] md:text-7xl">
+            High-Performance Coaching
+            <span className="block text-zinc-500 font-medium">
+              For Serious Endurance Athletes
+            </span>
           </h1>
 
-          <p className="mx-auto mt-6 max-w-2xl text-lg text-zinc-600">
-            Structured endurance training for runners from 5K to Ultra —
-            combining sports science, durability work, and race-day execution.
+          <div className="mt-6 h-[4px] w-20 rounded-full bg-[#FFD500] mx-auto" />
+
+          <p className="mx-auto mt-8 max-w-xl text-lg text-zinc-600 leading-relaxed">
+            No guesswork. No random training. Only structured progression,
+            durability work, and intelligent recovery — from 5K to Ultra.
           </p>
+
+          {/* micro-proof line */}
+          <div className="mx-auto mt-6 inline-flex flex-wrap items-center justify-center gap-2 text-xs text-zinc-500">
+            <span className="rounded-full border border-zinc-200 bg-white px-3 py-1">
+              M.Sc Sports Performance
+            </span>
+            <span className="rounded-full border border-zinc-200 bg-white px-3 py-1">
+              UESCA Ultrarunning Coach
+            </span>
+            <span className="rounded-full border border-zinc-200 bg-white px-3 py-1">
+              Race Director (OOTYULTRA / Bison Ultra)
+            </span>
+          </div>
 
           <div className="mt-10 flex flex-wrap justify-center gap-4">
             <Link
@@ -164,7 +182,10 @@ export default function HomePage() {
               >
                 <h3 className="text-xl font-semibold text-[#1FA2D6]">{item.title}</h3>
                 <p className="mt-5 text-zinc-600 text-sm">{item.desc}</p>
-                <Link href="/programs" className="mt-6 inline-block text-sm font-medium text-[#1FA2D6]">
+                <Link
+                  href="/programs"
+                  className="mt-6 inline-block text-sm font-medium text-[#1FA2D6]"
+                >
                   Learn More →
                 </Link>
               </div>
