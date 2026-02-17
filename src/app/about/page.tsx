@@ -61,7 +61,7 @@ export default function AboutPage() {
 
             <p className="mt-6 text-zinc-600 leading-relaxed">
               Leading OOTYULTRA, Bison Ultra, and Madurai Ultra,
-              the founder of KaysFIT Academy integrates race execution,
+              Coach Kay integrates race execution,
               operational leadership, and athlete development into one system.
             </p>
 

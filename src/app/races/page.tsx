@@ -12,6 +12,7 @@ type Race = {
   logo: string | null;
   dateLabel: string;
   distances: string[];
+  itra: boolean;
 };
 
 const races: Race[] = [
@@ -24,6 +25,7 @@ const races: Race[] = [
     logo: "/ootyultralogo.png",
     dateLabel: "March 22, 2026",
     distances: ["15K", "30K", "50K", "60K", "75K", "90K"],
+    itra : true,
   },
   {
     name: "Bison Ultra",
@@ -34,16 +36,18 @@ const races: Race[] = [
     logo: "/bisonultralogo.png",
     dateLabel: "June 7, 2026",
     distances: ["18K", "36K", "45K", "60K"],
+    itra : true,
   },
   {
     name: "Madurai Ultra",
     location: "Madurai, Tamil Nadu",
     description:
       "An endurance event rooted in structure, operational discipline, and athlete-focused execution.",
-    website: "https://maduraiultra.kfita.in/",
-    logo: null,
+    website: "https://maduraiultra.com",
+    logo: "/maduraiultralogo.png",
     dateLabel: "Date TBA",
-    distances: ["TBA"],
+    distances: ["18K", "36K", "45K", "60K"],
+    itra : true,
   },
 ];
 
@@ -156,11 +160,27 @@ export default function RacesPage() {
               className="rounded-2xl border border-zinc-200 bg-white p-10 hover:shadow-xl transition flex flex-col min-h-[520px]"
             >
               {/* LOGO */}
-              <LogoBlock name={race.name} logo={race.logo} />
+              <div className="flex items-start justify-between gap-4">
+  <div className="flex-1">
+    <LogoBlock name={race.name} logo={race.logo} />
+  </div>
+
+  {race.itra && (
+    <div className="relative h-8 w-16 shrink-0">
+      <Image
+        src="/itra-logo.png"
+        alt="ITRA Certified Race"
+        fill
+        className="object-contain"
+      />
+    </div>
+  )}
+</div>
 
               <div className="mt-6 text-xs uppercase tracking-[0.2em] text-zinc-500">
                 {race.location}
               </div>
+              
 
               <h2 className="mt-4 text-2xl font-semibold text-[#1FA2D6]">
                 {race.name}

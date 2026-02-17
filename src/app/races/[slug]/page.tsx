@@ -56,7 +56,7 @@ const raceMap: Record<string, RaceData> = {
       "Strong operational leadership",
       "Race execution focus",
     ],
-    website: "https://maduraiultra.kfita.in/",
+    website: "https://maduraiultra.com",
   },
 };
 
