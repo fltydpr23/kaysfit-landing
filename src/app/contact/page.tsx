@@ -1,9 +1,11 @@
+"use client";
+
 import Link from "next/link";
+import { useState } from "react";
 
 const BRAND_BLUE = "#1FA2D6";
 const BRAND_YELLOW = "#FFD500";
 
-// Replace this with the real WhatsApp number later (format: countrycode+number, no +)
 const WHATSAPP_NUMBER = "917829956329";
 const WHATSAPP_MESSAGE =
   "Hi KaysFIT Academy! I’m interested in coaching. My goal race is ____. My current weekly running is ____ km. Can we discuss the right plan?";
@@ -14,6 +16,35 @@ function waLink() {
 }
 
 export default function ContactPage() {
+  const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
+
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    setStatus("sending");
+
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+
+    try {
+      const res = await fetch("https://formspree.io/f/xwvnbrzz", {
+        method: "POST",
+        body: formData,
+        headers: {
+          Accept: "application/json",
+        },
+      });
+
+      if (res.ok) {
+        form.reset();
+        setStatus("success");
+      } else {
+        setStatus("error");
+      }
+    } catch {
+      setStatus("error");
+    }
+  }
+
   return (
     <main className="bg-white text-zinc-900">
       {/* HERO */}
@@ -29,12 +60,12 @@ export default function ContactPage() {
           </div>
 
           <h1 className="mt-6 text-5xl font-semibold leading-tight md:text-6xl">
-            Book a Consultation
+            Book a Consultation,
             <span className="block text-zinc-600">Get a structured plan recommendation</span>
           </h1>
 
           <p className="mx-auto mt-6 max-w-2xl text-lg text-zinc-600">
-            Share your goal, current training, and any injury history. We’ll suggest the best program track.
+            Share your goal, current training, and injury history. We’ll suggest the right track.
           </p>
 
           <div className="mt-10 flex flex-wrap justify-center gap-4">
@@ -62,11 +93,12 @@ export default function ContactPage() {
       {/* CONTENT */}
       <section className="py-20">
         <div className="mx-auto max-w-6xl px-6 grid gap-10 md:grid-cols-2">
-          {/* Left: Contact cards */}
+
+          {/* LEFT COLUMN */}
           <div>
             <h2 className="text-2xl font-semibold">Reach us</h2>
             <p className="mt-3 text-zinc-600">
-              WhatsApp is the quickest way to get started. If you prefer email, share your details and we’ll reply.
+              WhatsApp is the quickest way to get started. If you prefer email, use the enquiry form.
             </p>
 
             <div className="mt-8 grid gap-4">
@@ -86,15 +118,14 @@ export default function ContactPage() {
                 </a>
               </div>
 
-              <div className="rounded-2xl border border-zinc-200 p-6 hover:shadow-md transition bg-white">
+              <div className="rounded-2xl border border-zinc-200 p-6 bg-white">
                 <div className="text-xs uppercase tracking-[0.2em] text-zinc-500">Email</div>
                 <div className="mt-2 text-lg font-semibold text-zinc-900">
                   coachkay@kfita.in
                 </div>
-                
               </div>
 
-              <div className="rounded-2xl border border-zinc-200 p-6 hover:shadow-md transition bg-white">
+              <div className="rounded-2xl border border-zinc-200 p-6 bg-white">
                 <div className="text-xs uppercase tracking-[0.2em] text-zinc-500">Location</div>
                 <div className="mt-2 text-lg font-semibold text-zinc-900">
                   Bangalore, India
@@ -104,71 +135,61 @@ export default function ContactPage() {
                 </div>
               </div>
             </div>
-
-            <div
-              className="mt-8 rounded-2xl border p-6"
-              style={{ borderColor: `${BRAND_YELLOW}80`, backgroundColor: `${BRAND_YELLOW}22` }}
-            >
-              <div className="text-sm font-semibold text-zinc-900">What to include in your message</div>
-              <ul className="mt-3 space-y-2 text-sm text-zinc-700">
-                {[
-                  "Goal race + date (if any)",
-                  "Current weekly running volume",
-                  "Recent 5K/10K/HM time (optional)",
-                  "Any recurring injury or pain",
-                  "Days available to train",
-                ].map((x) => (
-                  <li key={x} className="flex gap-2">
-                    <span className="mt-2 h-1.5 w-1.5 rounded-full" style={{ backgroundColor: BRAND_BLUE }} />
-                    <span>{x}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
           </div>
 
-          {/* Right: Form (front-end only MVP) */}
+          {/* RIGHT COLUMN — FORM */}
           <div className="rounded-3xl border border-zinc-200 p-8 bg-white shadow-sm">
-            <div className="flex items-center justify-between gap-4">
-              <h2 className="text-2xl font-semibold">Enquiry form</h2>
-              <span
-                className="inline-flex items-center rounded-full px-3 py-1 text-xs font-medium"
-                style={{ backgroundColor: `${BRAND_YELLOW}33`, color: "#111827" }}
-              >
-                MVP
-              </span>
-            </div>
+            <h2 className="text-2xl font-semibold">Enquiry Form</h2>
 
-            <p className="mt-3 text-sm text-zinc-600">
-              This form can be connected to Formspree/Tally today, and later upgraded to a full admin dashboard.
-            </p>
+            <form onSubmit={handleSubmit} className="mt-8 grid gap-4">
 
-            <form className="mt-8 grid gap-4">
               <input
+                name="name"
+                required
                 className="rounded-xl border border-zinc-200 px-4 py-3 text-sm outline-none focus:border-zinc-400"
                 placeholder="Full name"
               />
+
               <input
+                name="phone"
+                required
                 className="rounded-xl border border-zinc-200 px-4 py-3 text-sm outline-none focus:border-zinc-400"
                 placeholder="Phone / WhatsApp"
               />
+
               <input
+                name="goal"
                 className="rounded-xl border border-zinc-200 px-4 py-3 text-sm outline-none focus:border-zinc-400"
                 placeholder="Goal (e.g., first 10K / sub-2 half / 50K)"
               />
+
               <textarea
+                name="message"
+                required
                 className="min-h-32 rounded-xl border border-zinc-200 px-4 py-3 text-sm outline-none focus:border-zinc-400"
                 placeholder="Current weekly running, schedule, injuries, race date (if any)"
               />
+
               <button
-                type="button"
-                className="rounded-xl px-6 py-3 text-sm font-medium text-white transition"
+                type="submit"
+                disabled={status === "sending"}
+                className="rounded-xl px-6 py-3 text-sm font-medium text-white transition disabled:opacity-60"
                 style={{ backgroundColor: BRAND_BLUE }}
               >
-                Send enquiry
+                {status === "sending" ? "Sending..." : "Send Enquiry"}
               </button>
 
-              
+              {status === "success" && (
+                <p className="text-sm text-green-700">
+                  Enquiry sent successfully. We’ll get back to you soon.
+                </p>
+              )}
+
+              {status === "error" && (
+                <p className="text-sm text-red-600">
+                  Something went wrong. Please try again or message us on WhatsApp.
+                </p>
+              )}
 
               <a
                 href={waLink()}
@@ -179,38 +200,40 @@ export default function ContactPage() {
               >
                 Prefer WhatsApp? Message us →
               </a>
+
             </form>
           </div>
         </div>
       </section>
 
-      {/* Bottom CTA */}
-      <section className="py-20 border-t border-zinc-200">
-        <div className="mx-auto max-w-4xl px-6 text-center">
-          <h2 className="text-3xl font-semibold">Training for OOTYULTRA / Bison Ultra / Madurai Ultra?</h2>
-          <p className="mt-4 text-zinc-600">
-            We can build a race-specific plan covering long runs, durability, pacing strategy, and recovery.
-          </p>
+      {/* BOTTOM CTA */}
+      <section className="py-20 border-t border-zinc-200 text-center">
+        <h2 className="text-3xl font-semibold">
+          Training for OOTYULTRA / Bison Ultra / Madurai Ultra?
+        </h2>
 
-          <div className="mt-10 flex flex-wrap justify-center gap-4">
-            <Link
-              href="/races"
-              className="rounded-xl border px-8 py-4 text-sm font-medium transition hover:bg-zinc-50"
-              style={{ borderColor: BRAND_YELLOW, color: BRAND_BLUE }}
-            >
-              Explore Races
-            </Link>
+        <p className="mt-4 text-zinc-600 max-w-2xl mx-auto">
+          We can build a race-specific plan covering long runs, durability, pacing strategy, and recovery.
+        </p>
 
-            <a
-              href={waLink()}
-              target="_blank"
-              rel="noreferrer"
-              className="rounded-xl px-8 py-4 text-sm font-medium text-white transition"
-              style={{ backgroundColor: BRAND_BLUE }}
-            >
-              WhatsApp Now
-            </a>
-          </div>
+        <div className="mt-10 flex flex-wrap justify-center gap-4">
+          <Link
+            href="/races"
+            className="rounded-xl border px-8 py-4 text-sm font-medium transition hover:bg-zinc-50"
+            style={{ borderColor: BRAND_YELLOW, color: BRAND_BLUE }}
+          >
+            Explore Races
+          </Link>
+
+          <a
+            href={waLink()}
+            target="_blank"
+            rel="noreferrer"
+            className="rounded-xl px-8 py-4 text-sm font-medium text-white transition"
+            style={{ backgroundColor: BRAND_BLUE }}
+          >
+            WhatsApp Now
+          </a>
         </div>
       </section>
     </main>
